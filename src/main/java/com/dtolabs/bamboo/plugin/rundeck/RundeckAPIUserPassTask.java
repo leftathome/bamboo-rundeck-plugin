@@ -15,7 +15,7 @@
  */
 package com.dtolabs.bamboo.plugin.rundeck;
 
-import com.atlassian.bamboo.task.TaskContext;
+import com.atlassian.bamboo.task.CommonTaskContext;
 import com.atlassian.bamboo.task.TaskException;
 import com.atlassian.bamboo.task.TaskResult;
 import org.jetbrains.annotations.NotNull;
@@ -33,7 +33,7 @@ public class RundeckAPIUserPassTask extends RundeckAPITaskBase
 
     @NotNull
     @java.lang.Override
-    public TaskResult execute(@NotNull final TaskContext taskContext) throws TaskException
+    public TaskResult execute(@NotNull final CommonTaskContext taskContext) throws TaskException
     {
         return executeUserPassStrategy(taskContext);
     }

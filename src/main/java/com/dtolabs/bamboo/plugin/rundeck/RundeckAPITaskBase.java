@@ -16,18 +16,18 @@
 package com.dtolabs.bamboo.plugin.rundeck;
 
 import com.atlassian.bamboo.build.logger.BuildLogger;
-import com.atlassian.bamboo.task.TaskContext;
+import com.atlassian.bamboo.task.CommonTaskContext;
 import com.atlassian.bamboo.task.TaskException;
 import com.atlassian.bamboo.task.TaskResult;
 import com.atlassian.bamboo.task.TaskResultBuilder;
-import com.atlassian.bamboo.task.TaskType;
+import com.atlassian.bamboo.task.CommonTaskType;
 import org.jetbrains.annotations.NotNull;
 
 import org.rundeck.api.RundeckClient;
 import org.rundeck.api.domain.RundeckExecution;
 import org.rundeck.api.domain.RundeckOutput;
 import org.rundeck.api.domain.RundeckOutputEntry;
-import com.atlassian.bamboo.v2.build.BuildContext;
+import com.atlassian.bamboo.v2.build.CommonContext;
 import com.atlassian.bamboo.variable.VariableContext;
 import java.util.Map;
 import java.util.List;
@@ -38,20 +38,20 @@ import java.io.BufferedReader;
 import java.io.IOException;
 
 
-public abstract class RundeckAPITaskBase implements TaskType
+public abstract class RundeckAPITaskBase implements CommonTaskType
 {
 
     public BuildLogger buildLogger;
 
-    private TaskContext taskContext;
-    private void setTaskContext(TaskContext taskContext) {
+    private CommonTaskContext taskContext;
+    private void setTaskContext(CommonTaskContext taskContext) {
        buildLogger = taskContext.getBuildLogger();
        this.taskContext = taskContext;
     }
 
     private Map variableDefinitions;
     private void setVariableDefinitions() {
-        BuildContext buildContext = taskContext.getBuildContext();
+        CommonContext buildContext = taskContext.getCommonContext();
         VariableContext variableContext = buildContext.getVariableContext();
         variableDefinitions = variableContext.getDefinitions();
         this.taskContext = taskContext;
@@ -212,11 +212,11 @@ public abstract class RundeckAPITaskBase implements TaskType
         } else {
            buildLogger.addBuildLogEntry("rundeck integration disabled, NOT running rundeck job");
         }
-        return TaskResultBuilder.create(taskContext).success().build();
+        return TaskResultBuilder.newBuilder(taskContext).success().build();
     }
 
 
-    public TaskResult executeUserPassStrategy(@NotNull final TaskContext taskContext)  throws TaskException
+    public TaskResult executeUserPassStrategy(@NotNull final CommonTaskContext taskContext)  throws TaskException
     {
         setTaskContext(taskContext);
         setVariableDefinitions();
@@ -225,7 +225,7 @@ public abstract class RundeckAPITaskBase implements TaskType
         return runJob();
     }
 
-    public TaskResult executeTokenStrategy(@NotNull final TaskContext taskContext)  throws TaskException
+    public TaskResult executeTokenStrategy(@NotNull final CommonTaskContext taskContext)  throws TaskException
     {
         setTaskContext(taskContext);
         setVariableDefinitions();
@@ -233,6 +233,6 @@ public abstract class RundeckAPITaskBase implements TaskType
         return runJob();
     }
 
-    public abstract TaskResult execute(@NotNull final TaskContext taskContext) throws TaskException;
+    public abstract TaskResult execute(@NotNull final CommonTaskContext taskContext) throws TaskException;
 
 }

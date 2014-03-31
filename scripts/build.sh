@@ -97,10 +97,12 @@ fi
 #
 if [ -z "${M2_SETTINGS_XML}" ]
 then
-   M2_SETTINGS_XML=${ATLAS_SDK_HOME}/apache-maven/conf/settings.xml
+   export M2_SETTINGS_XML=${ATLAS_SDK_HOME}/apache-maven/conf/settings.xml
+   export M2_HOME=${ATLAS_SDK_HOME}/apache-maven
 fi
 
 export PATH=${ATLAS_SDK_ROOT}/bin:${PATH}
+export ATLAS_HOME=${ATLAS_SDK_HOME}
 
 if ! ${ATLAS_MVN} -s ${M2_SETTINGS_XML} -Dmaven.test.skip=false clean ${MVN_PHASE}
 then

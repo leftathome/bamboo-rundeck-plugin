@@ -97,7 +97,7 @@ fi
 #
 if [ -z "${M2_SETTINGS_XML}" ]
 then
-   M2_SETTINGS_XML=${ATLAS_SDK_ROOT}/apache-maven/conf/settings.xml
+   M2_SETTINGS_XML=${ATLAS_SDK_HOME}/apache-maven/conf/settings.xml
 fi
 
 export PATH=${ATLAS_SDK_ROOT}/bin:${PATH}
